@@ -1,8 +1,17 @@
 #!/bin/bash
 # vim: ts=4 sw=4 noet
 
-USR=$(id -nu 1000)
-SETTINGS_DIR="/home/${USR}/.config/udev_hotplug/"
+# Get the user name by UID
+# Search for the user with UID from 1000 to 1010
+# Use the first one found
+for i in {1000..1010}; do
+	USER=$(id -nu "$i")
+	if [[ -n $USER ]]; then
+		break
+	fi
+done
+
+SETTINGS_DIR="/home/${USER}/.config/udev_hotplug/"
 
 if [[ -d "${SETTINGS_DIR}" ]]; then
 	rm -rf "${SETTINGS_DIR}"

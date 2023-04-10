@@ -6,7 +6,15 @@ if [[ -n $1 ]]; then
 	set -x
 fi
 
-USER=$(id -nu 1000)
+# Get the user name by UID
+# Search for the user with UID from 1000 to 1010
+# Use the first one found
+for i in {1000..1010}; do
+	USER=$(id -nu "$i")
+	if [[ -n $USER ]]; then
+		break
+	fi
+done
 
 SETTINGS="/home/${USER}/.config/udev_hotplug/settings.sh"
 
@@ -119,4 +127,4 @@ else
 			systemctl suspend -i
 		fi
 	fi
-	fi
+fi
