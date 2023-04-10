@@ -1,0 +1,25 @@
+#!/bin/bash
+# vim: ts=4 sw=4 noet
+
+USER=$(id -nu 1000)
+SETTINGS_DIR="/home/${USER}/.config/udev_hotplug/"
+SETTINGS_FILE="${SETTINGS_DIR}/settings.sh"
+
+if [[ ! -d "${SETTINGS_DIR}" ]]; then
+	mkdir -p "${SETTINGS_DIR}"
+	chown "${USER}:${USER}" "${SETTINGS_DIR}"
+	chmod 644 "${SETTINGS_DIR}" "${SETTINGS_DIR}"
+	echo "Created: ${SETTINGS_DIR}"
+	echo
+fi
+
+if [[ ! -f "${SETTINGS_FILE}" ]]; then
+	cp "/etc/udev_hotplug/settings.sh" "${SETTINGS_FILE}"
+	echo "Copied: /etc/udev_hotplug/settings.sh to ${SETTINGS_FILE}"
+	chown "${USER}:${USER}" "${WORKING_DIR}/settings.sh"
+	chmod 644 "${SETTINGS_FILE}" "${WORKING_DIR}/settings.sh"
+	echo
+fi
+
+sudo service udev restart
+sudo systemctl restart acpid

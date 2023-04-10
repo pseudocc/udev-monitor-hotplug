@@ -1,0 +1,12 @@
+Source: udev-monitor-hotplug
+Standards-Version: 4.6.0
+Section: admin
+Priority: optional
+Maintainer: Atlas Yu <atlas.yu@canonical.com>
+Build-Depends: debhelper (>= 13)
+
+Package: udev-monitor-hotplug
+Architecture: all
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: udev monitor
+ A tool to monitor udev hotplug events.

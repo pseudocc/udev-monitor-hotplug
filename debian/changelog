@@ -1,0 +1,5 @@
+udev-monitor-hotplug (0.1.0) stable; urgency=medium
+
+  * Initial release.
+
+ -- Atlas Yu <atlas.yu@canonical.com>  Mon, 10 Apr 2023 11:38:22 +0800

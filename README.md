@@ -1,18 +1,12 @@
 # Description
 
-I was tired of having to configure manually the disposition of my monitors when I plugged them in.
-
-So I decided to write this script that define custom behaviour when monitor are plugged in
-
-You might want to adapt the script to your needs ./usr/local/bin/monitor-hotplug.sh
-
-I was inspired by http://stackoverflow.com/questions/5469828/how-to-create-a-callback-for-monitor-plugged-on-an-intel-graphics
+A fork to debug the hotplug events.
 
 ## Installation
   ```
-  git clone https://github.com/codingtony/udev-monitor-hotplug.git
-  sudo chmod +x ./install.sh
-  sudo ./install.sh
+  wget https://github.com/pseudocc/udev-monitor-hotplug/releases/download/stable/udev-monitor-hotplug.deb
+  sudo dpkg -i udev-monitor-hotplug.deb
+  sudo rm -f udev-monitor-hotplug.deb
   ```
 
 ## Debuging

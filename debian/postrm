@@ -1,0 +1,14 @@
+#!/bin/bash
+# vim: ts=4 sw=4 noet
+
+USR=$(id -nu 1000)
+SETTINGS_DIR="/home/${USR}/.config/udev_hotplug/"
+
+if [[ -d "${SETTINGS_DIR}" ]]; then
+	rm -rf "${SETTINGS_DIR}"
+	echo "Removed: ${SETTINGS_DIR}"
+	echo
+fi
+
+sudo service udev restart
+sudo systemctl restart acpid
