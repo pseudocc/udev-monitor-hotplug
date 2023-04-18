@@ -11,13 +11,13 @@ for i in {1000..1010}; do
 	fi
 done
 
-SETTINGS_DIR="/home/${USER}/.config/udev_hotplug/"
+SETTINGS_DIR="/home/${USER}/.config/udev_hotplug"
 SETTINGS_FILE="${SETTINGS_DIR}/settings.sh"
 
 if [[ ! -d "${SETTINGS_DIR}" ]]; then
 	mkdir -p "${SETTINGS_DIR}"
 	chown "${USER}:${USER}" "${SETTINGS_DIR}"
-	chmod 644 "${SETTINGS_DIR}" "${SETTINGS_DIR}"
+	chmod 755 "${SETTINGS_DIR}"
 	echo "Created: ${SETTINGS_DIR}"
 	echo
 fi

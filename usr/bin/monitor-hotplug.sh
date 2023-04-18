@@ -20,6 +20,14 @@ SETTINGS="/home/${USER}/.config/udev_hotplug/settings.sh"
 
 if [[ -f "${SETTINGS}" ]]; then
 	source "${SETTINGS}"
+
+	if [[ -z "$EXTERNAL_RESOLUTION" ]]; then
+		EXTERNAL_RESOLUTION=""$EXTERNAL_RESOLUTION""
+	fi
+
+	if [[ -z "$INTERNAL_RESOLUTION" ]]; then
+		INTERNAL_RESOLUTION=""$EXTERNAL_RESOLUTION""
+	fi
 fi
 
 function display_by_name() { xrandr | grep -o -P "(?i)($1.+?[0-9])"; }
@@ -41,8 +49,7 @@ export XAUTHORITY=${_xauthority}
 # this while loop declare connected devices, exemple:
 # ${HDMI1}
 # ${VGA1}
-# ${LID0}
-# ${LVDS1} to me, is aways connected, use ${LID0}
+# ${eDP}
 # ${DP1}
 # ${AC}
 # ${JACK}
@@ -93,38 +100,24 @@ if [[ -n "${HDMI1}" && -n "${VGA1}" ]]; then
 	logger "HDMI1 and VGA1 are plugged in"
 	# if usb device is connected
 	if [[ -n ${is_usb_dev} ]]; then
-		xrandr --output "$(display_by_name VGA)" --mode 1920x1080 --primary
+		xrandr --output "$(display_by_name VGA)" --mode "$EXTERNAL_RESOLUTION" --primary
 		xrandr --output "$(display_by_name HDMI)" --off
 	else
-		xrandr --output "$(display_by_name HDMI)" --mode 1920x1080 --primary
+		xrandr --output "$(display_by_name HDMI)" --mode "$EXTERNAL_RESOLUTION" --primary
 		xrandr --output "$(display_by_name VGA)" --off
 	fi
 elif [[ -z "${VGA1}" && -n "${HDMI1}" ]]; then
 	logger "HDMI1 is plugged in, but not VGA"
 	xrandr --output "$(display_by_name VGA)" --off
-	xrandr --output "$(display_by_name HDMI)" --mode 1920x1080 --primary
+	xrandr --output "$(display_by_name HDMI)" --mode "$EXTERNAL_RESOLUTION" --primary
 elif [[ -n "${VGA1}" && -z "${HDMI1}" ]]; then
 	logger "VGA1 is plugged in, but not HDMI"
 	xrandr --output "$(display_by_name HDMI)" --off
-	xrandr --output "$(display_by_name VGA)" --mode 1920x1080 --primary
-	# if LID closed LVDS will be disabled
-	if [[ -z "${LID0}" ]]; then
-		xrandr --output "$(display_by_name LVDS)" --off
-	else
-		xrandr --output "$(display_by_name LVDS)" --mode 1920x1080 --below "$(display_by_name VGA)"
-	fi
+	xrandr --output "$(display_by_name VGA)" --mode "$EXTERNAL_RESOLUTION" --primary
 else
 	logger "No external monitors are plugged in"
-	xrandr --output "$(display_by_name LVDS)" --mode 1366x768 --primary
+	xrandr --output "$(display_by_name eDP)" --mode "$INTERNAL_RESOLUTION" --primary
 	xrandr --output "$(display_by_name VGA)" --off
 	xrandr --output "$(display_by_name HDMI)" --off
 	xrandr --output "$(display_by_name DP)" --off
-
-	# LID closed and External Power Disconected
-	if [[ -z "${LID0}" ]]; then
-		if [[ -z "${AC}"  ]]; then
-			logger "Going to Sleep!"
-			systemctl suspend -i
-		fi
-	fi
 fi
