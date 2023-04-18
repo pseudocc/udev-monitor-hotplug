@@ -25,8 +25,8 @@ fi
 if [[ ! -f "${SETTINGS_FILE}" ]]; then
 	cp "/etc/udev_hotplug/settings.sh" "${SETTINGS_FILE}"
 	echo "Copied: /etc/udev_hotplug/settings.sh to ${SETTINGS_FILE}"
-	chown "${USER}:${USER}" "${WORKING_DIR}/settings.sh"
-	chmod 644 "${SETTINGS_FILE}" "${WORKING_DIR}/settings.sh"
+	chown "${USER}:${USER}" "${SETTINGS_FILE}"
+	chmod 644 "${SETTINGS_FILE}"
 	echo
 fi
 
